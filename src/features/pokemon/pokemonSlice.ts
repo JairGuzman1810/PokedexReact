@@ -24,11 +24,17 @@ const pokemonSlice = createSlice({
   initialState,
   reducers: {
     setPokemon: (state, action: PayloadAction<Pokemon>) => {
-      state = action.payload;
+      state.id = action.payload.id;
+      state.name = action.payload.name;
+      state.image = action.payload.image;
+      state.height = action.payload.height;
+      state.weight = action.payload.weight;
+      state.type = action.payload.type;
+      state.move = action.payload.move;
+      state.stats = action.payload.stats;
     },
   },
 });
 
 export const {setPokemon} = pokemonSlice.actions;
-
 export default pokemonSlice.reducer;
