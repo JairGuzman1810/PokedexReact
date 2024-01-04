@@ -6,14 +6,18 @@
  */
 
 import React from 'react';
-import {SafeAreaView, StyleSheet, Text} from 'react-native';
+import {SafeAreaView, StyleSheet} from 'react-native';
 import PokemonList from './src/components/PokemonList';
+import {Provider} from 'react-redux';
+import {store} from './src/app/store';
 
 function App(): React.JSX.Element {
   return (
-    <SafeAreaView style={styles.container}>
-      <PokemonList />
-    </SafeAreaView>
+    <Provider store={store}>
+      <SafeAreaView style={styles.container}>
+        <PokemonList />
+      </SafeAreaView>
+    </Provider>
   );
 }
 
