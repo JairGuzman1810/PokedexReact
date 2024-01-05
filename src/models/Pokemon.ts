@@ -8,6 +8,7 @@ export default class Pokemon {
   type?: string;
   move?: string;
   stats?: Stats;
+  color?: string;
 
   // Comentario 2: Constructor para inicializar las características del Pokémon.
   constructor(
@@ -19,6 +20,7 @@ export default class Pokemon {
     type?: string,
     move?: string,
     stats?: Stats,
+    color?: string,
   ) {
     this.id = id;
     this.name = name;
@@ -28,6 +30,7 @@ export default class Pokemon {
     this.type = type;
     this.move = move;
     this.stats = stats;
+    this.color = color;
   }
 }
 
