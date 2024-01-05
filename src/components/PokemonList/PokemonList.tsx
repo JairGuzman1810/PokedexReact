@@ -19,6 +19,20 @@ import {
 } from '../../features/counter/counterSlice';
 import Pokemon, {Stats} from '../../models/Pokemon';
 import {Colors} from '../../color';
+
+const StatLine = (props: {
+  number: number | undefined;
+  color: string | undefined;
+}) => {
+  return (
+    <View
+      style={[
+        styles.statline,
+        {width: props.number, backgroundColor: props.color},
+      ]}
+    />
+  );
+};
 const PokemonList = () => {
   const dispatch = useAppDispatch();
   const currentPokemon = useAppSelector(state => state.pokemon);
@@ -87,7 +101,7 @@ const PokemonList = () => {
                 ? Colors.fairy
                 : pokemon?.types[0]?.type?.name?.toString() === 'normal'
                 ? Colors.normal
-                : Colors.unknown,
+                : Colors.black,
           };
           dispatch(setPokemon(newPokemon));
         })
@@ -122,7 +136,7 @@ const PokemonList = () => {
         style={styles.pokeball}
         source={require('../../images/Pokeball.png')}
       />
-      <SafeAreaView>
+      <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.pokemonname}>{currentPokemon.name}</Text>
           <Text style={styles.pokemonid}>#{currentPokemon.id}</Text>
@@ -153,6 +167,123 @@ const PokemonList = () => {
               onPress={() => handleIncrementByAmount(100)}>
               <Text>⏩</Text>
             </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.whitesheet}>
+          <View
+            style={[
+              styles.pokemontypecontainer,
+              {backgroundColor: currentPokemon.color},
+            ]}>
+            <Text style={styles.pokemontype}>{currentPokemon.type}</Text>
+          </View>
+          <Text style={[styles.titleinfo, {color: currentPokemon.color}]}>
+            About
+          </Text>
+          <View style={styles.containerabout}>
+            <View style={styles.contentabout}>
+              <Text style={styles.blacktext}>
+                ⚖️
+                {currentPokemon.weight
+                  ?.toString()
+                  .slice(0, currentPokemon.weight.toString().length - 1)}
+                .
+                {currentPokemon.weight
+                  ?.toString()
+                  .slice(
+                    currentPokemon.weight.toString().length - 1,
+                    currentPokemon.weight.toString().length,
+                  )}
+                kg
+              </Text>
+              <Text style={styles.graytext}>Weight</Text>
+            </View>
+            <View style={styles.contentabout}>
+              <Text style={styles.blacktext}>
+                📏
+                {currentPokemon.height
+                  ?.toString()
+                  .slice(0, currentPokemon.height.toString().length - 1)}
+                .
+                {currentPokemon.height
+                  ?.toString()
+                  .slice(
+                    currentPokemon.height.toString().length - 1,
+                    currentPokemon.height.toString().length,
+                  )}
+                m
+              </Text>
+              <Text style={styles.graytext}>Height</Text>
+            </View>
+            <View style={styles.contentabout}>
+              <Text style={styles.blacktext}>{currentPokemon.move}</Text>
+              <Text style={styles.graytext}>Move</Text>
+            </View>
+          </View>
+          <Text style={[styles.titleinfo, {color: currentPokemon.color}]}>
+            Base Stats
+          </Text>
+          <View style={styles.statscontainer}>
+            <View style={styles.statstitlescontainer}>
+              <Text style={styles.blacktext}>HP</Text>
+              <Text style={styles.blacktext}>Attack</Text>
+              <Text style={styles.blacktext}>Defense</Text>
+              <Text style={styles.blacktext}>Special Attack</Text>
+              <Text style={styles.blacktext}>Special Defense</Text>
+              <Text style={styles.blacktext}>Speed</Text>
+            </View>
+            <View
+              style={[
+                styles.viewseparator,
+                {backgroundColor: Colors.lightGray},
+              ]}
+            />
+
+            <View style={[styles.statstitlescontainer, {marginLeft: 10}]}>
+              <Text style={styles.blacktext}>{currentPokemon.stats?.hp}</Text>
+              <Text style={styles.blacktext}>
+                {currentPokemon.stats?.attack}
+              </Text>
+              <Text style={styles.blacktext}>
+                {currentPokemon.stats?.defense}
+              </Text>
+              <Text style={styles.blacktext}>
+                {currentPokemon.stats?.specialAttack}
+              </Text>
+              <Text style={styles.blacktext}>
+                {currentPokemon.stats?.specialDefense}
+              </Text>
+              <Text style={styles.blacktext}>
+                {currentPokemon.stats?.speed}
+              </Text>
+            </View>
+
+            <View>
+              <StatLine
+                number={currentPokemon.stats?.hp}
+                color={currentPokemon.color}
+              />
+              <StatLine
+                number={currentPokemon.stats?.attack}
+                color={currentPokemon.color}
+              />
+              <StatLine
+                number={currentPokemon.stats?.defense}
+                color={currentPokemon.color}
+              />
+              <StatLine
+                number={currentPokemon.stats?.specialAttack}
+                color={currentPokemon.color}
+              />
+              <StatLine
+                number={currentPokemon.stats?.specialDefense}
+                color={currentPokemon.color}
+              />
+              <StatLine
+                number={currentPokemon.stats?.speed}
+                color={currentPokemon.color}
+              />
+            </View>
           </View>
         </View>
       </SafeAreaView>
@@ -194,6 +325,7 @@ const styles = StyleSheet.create({
     height: 200,
   },
   content: {
+    marginTop: 35,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -219,5 +351,70 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     margin: 10,
+  },
+  pokemontype: {
+    color: Colors.white,
+    paddingHorizontal: 10,
+    fontWeight: 'bold',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  pokemontypecontainer: {
+    height: 30,
+    marginTop: 10,
+    borderRadius: 5,
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
+  whitesheet: {
+    borderRadius: 20,
+    backgroundColor: Colors.white,
+    marginHorizontal: 10,
+    marginBottom: 10,
+    flex: 1,
+  },
+  titleinfo: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginTop: 20,
+  },
+  containerabout: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  contentabout: {
+    alignItems: 'center',
+    marginHorizontal: 20,
+  },
+  blacktext: {
+    color: '#000',
+  },
+  graytext: {
+    color: '#666666',
+    fontSize: 12,
+    marginTop: 10,
+  },
+  statstitlescontainer: {
+    alignItems: 'flex-end',
+    marginRight: 10,
+  },
+  viewseparator: {
+    height: 120,
+    width: 2,
+    marginRight: 2,
+  },
+  statscontainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginHorizontal: 30,
+    marginTop: 20,
+  },
+  statline: {
+    marginVertical: 7,
+    height: 5,
+    marginLeft: 10,
+    borderRadius: 5,
   },
 });
